@@ -36,16 +36,21 @@ int mpc_set_imag(mp_float *a, mp_complex *b);
 int mpc_real(mp_complex *a, mp_complex *b);
 /* Zero out the real part */
 int mpc_imag(mp_complex *a, mp_complex *b);
+/* Get the innards */
+#define MPC_REAL(a) (a->re)
+#define MPC_IMAG(a) (a->im)
 
 /* Deep copy: copy a into b */
 int mpc_copy(mp_complex *a, mp_complex *b);
 /* Shallow copy (just pointer exchange) */
-int mpc_copy(mp_complex *a, mp_complex *b);
+int mpc_exch(mp_complex *a, mp_complex *b);
 
 /* Norm */
 int mpc_norm(mp_complex *a, mp_complex *b);
 /* Absolute value (magnitude) */
 int mpc_abs(mp_complex *a, mp_complex *b);
+/* Phase */
+int mpc_phase(mp_complex *a, mp_complex *b);
 /* Negation */
 int mpc_neg(mp_complex *a, mp_complex *b);
 /* Conjugate */
@@ -67,6 +72,9 @@ int mpc_pol_to_cart(mp_complex *a, mp_complex *b);
    short: compares for equality first (a.re == b.re && a.im == b.im) then
    the magnitudes and finally the phase angels. Yes, it is costly. */
 int mpc_cmp(mp_complex *a, mp_complex *b);
+#define mpc_zero(a) (mpf_zero(a->re) && mpf_zero(a->im))
+#define mpc_isreal(a) (mpf_zero(a->im))
+#define mpc_isimag(a) (mpf_zero(a->re))
 
 /* Basic functions */
 int mpc_add(mp_complex *a, mp_complex *b, mp_complex *c);
@@ -84,8 +92,7 @@ int mpc_pow_d(mp_complex *a, int n, mp_complex *b);
 /* Not so basic functions, free choice of branch */
 int mpc_sqrt_branch(mp_complex *a, int branch, mp_complex *b);
 int mpc_log_branch(mp_complex *a, int branch, mp_complex *b);
-int mpc_exp_branch(mp_complex *a, int branch, mp_complex *b);
-int mpc_pow(mp_complex *a, mp_complex *b, int branch, mp_complex *c);
+int mpc_pow_branch(mp_complex *a, mp_complex *b, int branch, mp_complex *c);
 int mpc_pow_d_branch(mp_complex *a, int n, int branch, mp_complex *b);
 
 /* Trigonometrics */
